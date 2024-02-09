@@ -1,70 +1,129 @@
-# Getting Started with Create React App
+# Личный проект «Кэт-энерджи»
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Учебный проект Cat-Energy выполнен в рамках курса Фронтенд разработчик от [htmlacademy](https://htmlacademy.ru)
+![htmlacademy](https://ritfest.ru/i/ritfest/2018/reunion/members/html_academy.png)
 
-## Available Scripts
+# Результат работы
 
-In the project directory, you can run:
+### Результат доступен по ссылке [https://farm-products-seven.vercel.app/](https://farm-products-seven.vercel.app/)
 
-### `npm start`
+##### Вид главной страницы при загрузке
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![Вид главной страницы при загрузке](src/assets/screenshot.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## В рамках проекта усвоены такие практические навыки как:
 
-### `npm test`
+- ### Вёрстка React компонентов
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+##### Пример компонента
 
-### `npm run build`
+```jsx
+export default function Info() {
+  return (
+    <StyledSection>
+      <TextBlock>
+        <StyledTitle size={TitleSize.BIG}>
+          Магазин фермерских продуктов с доставкой
+        </StyledTitle>
+        <StyledText size={TextSize.BIG}>
+          Все продукты изготавливаются под заказ. Фермеры начинают готовить
+          продукты за день до отправки заказа клиентам. Именно поэтому мы
+          принимаем заказы заранее и доставляем продукты максимально свежими.
+        </StyledText>
+      </TextBlock>
+      <BackgroundElement />
+    </StyledSection>
+  );
+}
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- ### Стилизация компонентов с помощью styled-components
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+##### Пример стилизованного компонента
+```jsx
+export const StyledSection = styled(Section)`
+  height: 600px;
+  background-color: ${(props) => props.theme.backgroundColorBlue};
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- ### Реализация интерактивности
 
-### `npm run eject`
+##### Пример интерактивности
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```jsx
+const [state, setState] = useState(1300);
+const [checked, setChecked] = useState(props.isChecked);
+const [isCheckedIndex, setIsChekedIndex] = useState(0);
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<CheckboxInput
+  type="checkbox"
+  name="product"
+  id={`product-${props.id + 1}`}
+  checked={checked}
+  onChange={() => {
+    setChecked(!checked);
+    if (!checked) {
+      setState(state + props.price);
+      setIsChekedIndex(props.id);
+      swiperRef.slideTo(isCheckedIndex, 0);
+      setGoods([...goods, props.name]);
+    } else {
+        setState(state - props.price);
+        setGoods(goods.filter((elem) => elem != props.name));
+    }
+  }}
+  value={props.price}
+/>
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- ### Реализация Роутинга
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+##### Пример Роутинга
 
-## Learn More
+```jsx
+<Routes>
+  <Route path="/" element={<HomePage />} />
+  <Route path="/order" element={<OrderPage />} />
+</Routes>
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- ### Работа с API Swiper.js
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+##### Пример Swiper компонента
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```jsx
+<StyledSwiper
+  onSwiper={setSwiperRef}
+  modules={[Scrollbar, Pagination, Mousewheel, FreeMode]}
+  slidesPerView="auto"
+  spaceBetween={12}
+  direction="vertical"
+  scrollbar={{
+    draggable: true,
+  }}
+  mousewheel={{
+    sensetivity: 5,
+  }}
+  freeMode
+>
+  {props.map((item) => (
+    <StyledSwiperSlide>
+      <Card props={item} key={props.id} />
+    </StyledSwiperSlide>
+  ))}
+</StyledSwiper>
+```
 
-### Analyzing the Bundle Size
+## Цель создания и описание работы:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Цель создания:
+   - получение практических навыков
+   - создание учебного проекта
+2. Описание работы:
+   - создание SPA приложения с помощью React.js + styled-components + API Swiper.js
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
